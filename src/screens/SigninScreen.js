@@ -22,7 +22,7 @@ function SigninScreen() {
     const submitHandler = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await Axios.post('https://ecommercebackend-productions.up.railway.app/api/users/signin', {
+            const { data } = await Axios.post('https://ecommercebackend-9imt.onrender.com/api/users/signin', {
                 email,
                 password,
             })

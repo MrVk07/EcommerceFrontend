@@ -49,7 +49,7 @@ export default function PlaceOrderScreen() {
             dispatch({ type: 'CREATE_REQUEST' });
 
             const { data } = await Axios.post(
-                'https://ecommercebackend-productions.up.railway.app/api/orders',
+                'https://ecommercebackend-9imt.onrender.com/api/orders',
                 {
                     orderItems: cart.cartItems,
                     shippingAddress: cart.shippingAddress,

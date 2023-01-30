@@ -43,7 +43,7 @@ export default function OrderScreen() {
         const fetchOrder = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
-                const { data } = await axios.get(`https://ecommercebackend-productions.up.railway.app/api/orders/${orderId}`, {
+                const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/orders/${orderId}`, {
                     headers: { authorization: `Bearer ${userInfo.token}` },
                 });
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });

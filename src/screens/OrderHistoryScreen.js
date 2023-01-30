@@ -35,7 +35,7 @@ export default function OrderHistoryScreen() {
             dispatch({ type: 'FETCH_REQUEST' });
             try {
                 const { data } = await axios.get(
-                    `https://ecommercebackend-productions.up.railway.app/api/orders/mine`,
+                    `https://ecommercebackend-9imt.onrender.com/api/orders/mine`,
 
                     { headers: { Authorization: `Bearer ${userInfo.token}` } }
                 );

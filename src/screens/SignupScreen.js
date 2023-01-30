@@ -30,7 +30,7 @@ export default function SignupScreen() {
       return;
     }
     try {
-      const { data } = await Axios.post('https://ecommercebackend-productions.up.railway.app/api/users/signup', {
+      const { data } = await Axios.post('https://ecommercebackend-9imt.onrender.com/api/users/signup', {
         name,
         email,
         password,

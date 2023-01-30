@@ -92,7 +92,7 @@ export default function SearchScreen() {
         const fetchData = async () => {
             try {
                 const { data } = await axios.get(
-                    `https://ecommercebackend-productions.up.railway.app/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+                    `https://ecommercebackend-9imt.onrender.com/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
                 );
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
             } catch (err) {
@@ -109,7 +109,7 @@ export default function SearchScreen() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const { data } = await axios.get(`https://ecommercebackend-productions.up.railway.app/api/products/categories`);
+                const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/categories`);
                 setCategories(data);
             } catch (err) {
                 toast.error(util(err));

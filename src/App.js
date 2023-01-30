@@ -48,7 +48,7 @@ function App() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get('https://ecommercebackend-productions.up.railway.app/api/products/categories')
+        const { data } = await axios.get('https://ecommercebackend-9imt.onrender.com/api/products/categories')
         setcategories(data)
       } catch (err) {
         toast.error(util(err))

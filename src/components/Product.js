@@ -15,7 +15,7 @@ function Product(props) {
     const addCartHandler = async (item) => {
         const existItem = cartItems.find((x) => x._id === props.product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1;
-        const { data } = await axios.get(`https://ecommercebackend-productions.up.railway.app/api/products/${item._id}`)
+        const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/${item._id}`)
         if (data.countInStock < quantity) {
             window.alert('Sorry. Product is out of stock');
             return 0;
