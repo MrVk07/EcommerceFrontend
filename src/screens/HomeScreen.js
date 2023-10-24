@@ -6,6 +6,7 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { resolveAPI } from '../config';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -31,7 +32,8 @@ function HomeScreen() {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' })
             try {
-                const result = await axios.get('https://ecommercebackend-9imt.onrender.com/api/products')
+                const url = resolveAPI("api/products");
+                const result = await axios.get(url);
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
             } catch (err) {
                 dispatch({ type: 'FETCH_FAIL', payload: err.message })

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Rating from './Rating';
 import axios from 'axios';
 import { Store } from '../Store';
+import { resolveAPI } from '../config';
 
 function Product(props) {
     const { state, dispatch: ctxDispatch } = useContext(Store)
@@ -15,12 +16,12 @@ function Product(props) {
     const addCartHandler = async (item) => {
         const existItem = cartItems.find((x) => x._id === props.product._id);
         const quantity = existItem ? existItem.quantity + 1 : 1;
-        const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/${item._id}`)
+        const url = resolveAPI(`api/products/${item._id}`);
+        const { data } = await axios.get(url);
         if (data.countInStock < quantity) {
             window.alert('Sorry. Product is out of stock');
             return 0;
         }
-
         ctxDispatch({
             type: 'CART_ADD_ITEM',
             payload: { ...item, quantity }

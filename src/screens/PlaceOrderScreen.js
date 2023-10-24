@@ -12,6 +12,7 @@ import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 import LoadingBox from '../components/LoadingBox';
 import util from '../util';
+import { resolveAPI } from '../config';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -47,9 +48,9 @@ export default function PlaceOrderScreen() {
     const placeOrderHandler = async () => {
         try {
             dispatch({ type: 'CREATE_REQUEST' });
-
+            const url = resolveAPI("api/orders");
             const { data } = await Axios.post(
-                'https://ecommercebackend-9imt.onrender.com/api/orders',
+                url,
                 {
                     orderItems: cart.cartItems,
                     shippingAddress: cart.shippingAddress,

@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Product from '../components/Product';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
 import util from '../util';
+import { resolveAPI } from '../config';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -91,8 +92,9 @@ export default function SearchScreen() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const url = resolveAPI(`api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
                 const { data } = await axios.get(
-                    `https://ecommercebackend-9imt.onrender.com/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+                    url
                 );
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
             } catch (err) {
@@ -109,7 +111,8 @@ export default function SearchScreen() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/categories`);
+                const url = resolveAPI("api/products/categories");
+                const { data } = await axios.get(url);
                 setCategories(data);
             } catch (err) {
                 toast.error(util(err));

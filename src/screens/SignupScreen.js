@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import util from '../util';
+import { resolveAPI } from '../config';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -30,7 +31,8 @@ export default function SignupScreen() {
       return;
     }
     try {
-      const { data } = await Axios.post('https://ecommercebackend-9imt.onrender.com/api/users/signup', {
+      const url = resolveAPI("api/users/signup");
+      const { data } = await Axios.post(url, {
         name,
         email,
         password,

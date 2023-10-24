@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import util from '../util'
+import { resolveAPI } from '../config';
 
 function SigninScreen() {
     const navigate = useNavigate()
@@ -22,7 +23,8 @@ function SigninScreen() {
     const submitHandler = async (e) => {
         e.preventDefault()
         try {
-            const { data } = await Axios.post('https://ecommercebackend-9imt.onrender.com/api/users/signin', {
+            const url = resolveAPI("api/users/signin");
+            const { data } = await Axios.post(url, {
                 email,
                 password,
             })

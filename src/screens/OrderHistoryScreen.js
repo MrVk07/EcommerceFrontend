@@ -7,6 +7,7 @@ import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import util from '../util';
 import Button from 'react-bootstrap/esm/Button';
+import { resolveAPI } from '../config';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -34,9 +35,9 @@ export default function OrderHistoryScreen() {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
             try {
+                const url = resolveAPI("api/orders/mine");
                 const { data } = await axios.get(
-                    `https://ecommercebackend-9imt.onrender.com/api/orders/mine`,
-
+                    url,
                     { headers: { Authorization: `Bearer ${userInfo.token}` } }
                 );
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });

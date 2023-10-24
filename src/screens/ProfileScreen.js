@@ -6,6 +6,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import util from '../util';
+import { resolveAPI } from '../config';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -36,8 +37,9 @@ export default function ProfileScreen() {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+            const url = resolveAPI("api/users/profile");
             const { data } = await axios.put(
-                'https://ecommercebackend-9imt.onrender.com/api/users/profile',
+                url,
                 {
                     name,
                     email,

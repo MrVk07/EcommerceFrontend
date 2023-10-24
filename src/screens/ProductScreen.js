@@ -14,6 +14,7 @@ import MessageBox from '../components/MessageBox'
 import LoadingBox from '../components/LoadingBox'
 import util from '../util'
 import { Store } from '../Store'
+import { resolveAPI } from '../config'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -42,7 +43,8 @@ function ProductScreen() {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' })
       try {
-        const result = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/slug/${slug}`)
+        const url = resolveAPI(`api/products/slug/${slug}`);
+        const result = await axios.get(url);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: util(err) })
@@ -57,7 +59,8 @@ function ProductScreen() {
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/${product._id}`);
+    const url = resolveAPI(`api/products/${product._id}`)
+    const { data } = await axios.get(url);
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;

@@ -11,6 +11,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import util from '../util';
+import { resolveAPI } from '../config';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -43,7 +44,8 @@ export default function OrderScreen() {
         const fetchOrder = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
-                const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/orders/${orderId}`, {
+                const url = resolveAPI(`api/orders/${orderId}`);
+                const { data } = await axios.get(url, {
                     headers: { authorization: `Bearer ${userInfo.token}` },
                 });
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });

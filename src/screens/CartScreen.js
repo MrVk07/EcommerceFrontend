@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { resolveAPI } from '../config'
 
 function CartScreen() {
     const navigate = useNavigate()
@@ -18,7 +19,8 @@ function CartScreen() {
     } = state
 
     const updateCartHandler = async (item, quantity) => {
-        const { data } = await axios.get(`https://ecommercebackend-9imt.onrender.com/api/products/${item._id}`)
+        const url = resolveAPI(`api/products/${item._id}`);
+        const { data } = await axios.get(url);
         if (data.countInStock < quantity) {
             window.alert('Sorry. Product is out of stock');
             return;
