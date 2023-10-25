@@ -31,19 +31,19 @@ function Product(props) {
 
     return (
         <div>
-            <Card bg="danger" border="dark">
+            <Card style={{ backgroundColor: "#EEA47F" }} border="dark">
                 <Link to={`/product/${props.product.slug}`}>
                     <img src={props.product.image} className="card-img-top" alt={props.product.name} />
                 </Link>
                 <Card.Body>
-                    <Link to={`/product/${props.product.slug}`} style={{ textDecoration: 'none' }}>
-                        <Card.Title style={{ color: "yellow" }}>{props.product.name}</Card.Title>
+                    <Link to={`/product/${props.product.slug}`} style={{ textDecoration: 'none', color: "black" }}>
+                        <Card.Title>{props.product.name}</Card.Title>
                     </Link>
                     <Rating rating={props.product.rating} numReviews={props.product.numReviews} />
-                    <Card.Text style={{ color: "black" }}>Price:<strong style={{ color: "yellow" }}>{props.product.price}</strong></Card.Text>
+                    <Card.Text style={{ color: "black" }}><strong>Price: {props.product.price}</strong></Card.Text>
                     {props.product.countInStock === ((cartItems.find((x) => x._id === props.product._id)) ? (cartItems.find((x) => x._id === props.product._id)).quantity : 1) ?
                         <Button variant="danger" disabled>Out of stock</Button> :
-                        <Button className="btn btn-warning" onClick={() => addCartHandler(props.product)} >Add to cart</Button>
+                        <Button className="" style={{ backgroundColor: "#EE4E34", border: "none" }} onClick={() => addCartHandler(props.product)} >Add to cart</Button>
                     }
                 </Card.Body>
             </Card>

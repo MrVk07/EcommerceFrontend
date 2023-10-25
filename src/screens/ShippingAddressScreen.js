@@ -54,7 +54,7 @@ export default function ShippingAddressScreen() {
             </Helmet>
 
             <CheckoutSteps step1 step2></CheckoutSteps>
-            <div className="container small-container">
+            <div className="container small-container" style={{ color: "black" }}>
                 <h1 className="my-3">Shipping Address</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group className="mb-3" controlId="fullName">
@@ -98,7 +98,7 @@ export default function ShippingAddressScreen() {
                         />
                     </Form.Group>
                     <div className="mb-3">
-                        <Button variant="primary" type="submit">
+                        <Button variant="danger" type="submit">
                             Continue
                         </Button>
                     </div>

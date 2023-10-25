@@ -81,54 +81,54 @@ function ProductScreen() {
           </Helmet>
           <Row>
             <Col md={6}>
-              <img className='img-large' src={`.${product.image}`} alt={product.name} />
+              <img className='img-large rounded my-4' src={`.${product.image}`} alt={product.name} height={550} />
             </Col>
             <Col md={6}>
-              <Card bg="danger">
-                <Card.Body style={{ border: "1px solid black" }}>
-                  <ListGroup variant="flush">
-                    <ListGroup.Item variant='danger'>
-                      <h1>{product.name}</h1>
-                    </ListGroup.Item>
-                    <ListGroup.Item variant='danger'>
-                      <Row>
-                        <Col>Review:</Col>
-                        <Col><b><Rating rating={product.rating} numReviews={product.numReviews}></Rating></b></Col>
-                      </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item variant="danger">
-                      <Row>
-                        <Col>Description:</Col>
-                        <Col><b>{product.desc}</b></Col>
-                      </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item variant="danger">
-                      <Row>
-                        <Col>Price:</Col>
-                        <Col><b>${product.price}</b></Col>
-                      </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item variant="danger">
-                      <Row>
-                        <Col>Status:</Col>
-                        <Col>{product.countInStock !== ((cart.cartItems.find((x) => x._id === product._id)) ? (cart.cartItems.find((x) => x._id === product._id)).quantity : 1) ?
-                          <Badge bg="success">In Stock</Badge> :
-                          <Badge bg="danger">Unavailable</Badge>
-                        }</Col>
-                      </Row>
-                    </ListGroup.Item>
-                    {product.countInStock !== ((cart.cartItems.find((x) => x._id === product._id)) ? (cart.cartItems.find((x) => x._id === product._id)).quantity : 1) ? (
-                      <ListGroupItem variant="danger">
-                        <div className="d-grid">
-                          <Button onClick={addToCartHandler} variant="danger"><b>Add to Cart</b></Button>
-                        </div>
-                      </ListGroupItem>) :
-                      <Button variant='light' disabled>Out of stock</Button>
-                    }
+              <Card.Body style={{ backgroundColor: "#EEA47F", borderRadius: "20px", border: "1px solid black", marginTop: "20px" }}>
+                <ListGroup>
+                  <ListGroup.Item ><h1>{product.name}</h1></ListGroup.Item>
 
-                  </ListGroup>
-                </Card.Body>
-              </Card>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Review:</Col>
+                      <Col><b><Rating rating={product.rating} numReviews={product.numReviews}></Rating></b></Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item >
+                    <Row>
+                      <Col>Description:</Col>
+                      <Col><b>{product.desc}</b></Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Price:</Col>
+                      <Col><b>${product.price}</b></Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  <ListGroup.Item >
+                    <Row>
+                      <Col>Status:</Col>
+                      <Col>{product.countInStock !== ((cart.cartItems.find((x) => x._id === product._id)) ? (cart.cartItems.find((x) => x._id === product._id)).quantity : 1) ?
+                        <Badge bg="success">In Stock</Badge> :
+                        <Badge bg="danger">Unavailable</Badge>
+                      }</Col>
+                    </Row>
+                  </ListGroup.Item>
+
+                  {product.countInStock !== ((cart.cartItems.find((x) => x._id === product._id)) ? (cart.cartItems.find((x) => x._id === product._id)).quantity : 1) ? (
+                    <ListGroupItem >
+                      <div className="d-grid">
+                        <Button onClick={addToCartHandler} style={{ backgroundColor: "#EE4E34", border: '1px solid black' }}><b>Add to Cart</b></Button>
+                      </div>
+                    </ListGroupItem>) :
+                    <Button variant='light' disabled>Out of stock</Button>
+                  }
+                </ListGroup>
+              </Card.Body>
             </Col>
           </Row>
         </div >

@@ -52,7 +52,7 @@ export default function SignupScreen() {
   }, [navigate, redirect, userInfo]);
 
   return (
-    <Container className="small-container">
+    <Container className="small-container" style={{ color: "black" }}>
       <Helmet>
         <title>Sign Up</title>
       </Helmet>
@@ -88,11 +88,11 @@ export default function SignupScreen() {
           </Form.Group>
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" variant='danger'>Sign Up</Button>
         </div>
         <div className="mb-3">
           Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+          <Link to={`/signin?redirect=${redirect}`} className='text-white'>Sign-In</Link>
         </div>
       </Form>
     </Container>

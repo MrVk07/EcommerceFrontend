@@ -43,35 +43,35 @@ function CartScreen() {
     return (
         <div>
             <Helmet>
-                <title>Shopping Cart</title>
+                <title>Cart</title>
             </Helmet>
-            <h1>Shopping Cart</h1>
+            <h1 className='my-4 text-white'>Shopping Cart</h1>
             <Row>
                 <Col md={8}>
                     {cartItems.length === 0 ? (
                         <MessageBox>
-                            Cart is empty. <Link to="/">Go Shopping</Link>
+                            Cart is empty. <Link to="/" className='text-white'>Go Shopping</Link>
                         </MessageBox>)
                         : (<ListGroup>
                             {cartItems.map((item) => (
-                                <ListGroup.Item key={item._id} variant="danger">
+                                <ListGroup.Item key={item._id}>
                                     <Row className="align-items-center">
                                         <Col md={4}>
-                                            <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail"></img>{' '}
-                                            <Link to={`/product/${item.slug}`} style={{ textDecoration: 'none', color: "red" }}><b>{item.name}</b></Link>
+                                            <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail border border-dark"></img>{' '}
+                                            <Link to={`/product/${item.slug}`} style={{ textDecoration: 'none', color: "#EE4E34" }}><b>{item.name}</b></Link>
                                         </Col>
-                                        <Col md={3}>
-                                            <Button variant="danger" onClick={() => updateCartHandler(item, item.quantity - 1)} disabled={item.quantity === 1}>
+                                        <Col md={3} className=''>
+                                            <Button style={{ backgroundColor: "#EE4E34", border: "black" }} onClick={() => updateCartHandler(item, item.quantity - 1)} disabled={item.quantity === 1}>
                                                 <i className="fas fa-minus-circle"></i>
                                             </Button>{' '}
                                             <span><b>{item.quantity}</b></span>{' '}
-                                            <Button variant="danger" onClick={() => updateCartHandler(item, item.quantity + 1)} disabled={item.quantity === item.countInStock}>
+                                            <Button style={{ backgroundColor: "#EE4E34", border: "black" }} onClick={() => updateCartHandler(item, item.quantity + 1)} disabled={item.quantity === item.countInStock}>
                                                 <i className="fas fa-plus-circle"></i>
                                             </Button>
                                         </Col>
-                                        <Col md={3}>${item.price}</Col>
+                                        <Col md={3}><strong>${item.price}</strong></Col>
                                         <Col md={2}>
-                                            <Button variant="danger" onClick={() => removeItemHandler(item)} ><i className="fas fa-trash"></i></Button>
+                                            <Button style={{ backgroundColor: "#EE4E34", border: "black" }} onClick={() => removeItemHandler(item)} ><i className="fas fa-trash"></i></Button>
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
@@ -80,24 +80,24 @@ function CartScreen() {
                         )}
                 </Col>
                 <Col md={4}>
-                    <Card style={{ backgroundColor: "#F8D7DA" }}>
-                        <Card.Body >
-                            <ListGroup variant="flush">
-                                <ListGroup.Item variant='danger'>
-                                    <h3>Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}items)
-                                        :<b> ${cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}</b>
-                                    </h3>
-                                </ListGroup.Item>
-                                <ListGroup.Item variant='danger'>
-                                    <div className="d-grid">
-                                        <Button onClick={checkoutHandler} type="button" variant="danger" disabled={cartItems.length === 0}>
-                                            <b>Proceed to Checkout</b>
-                                        </Button>
-                                    </div>
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                    </Card>
+                    {/* <Card style={{ backgroundColor: "#F8D7DA" }}> */}
+                    <Card.Body className='px-6' >
+                        <ListGroup >
+                            <ListGroup.Item >
+                                <h3>Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}items)
+                                    :<b> ${cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}</b>
+                                </h3>
+                            </ListGroup.Item>
+                            <ListGroup.Item >
+                                <div className="d-grid">
+                                    <Button onClick={checkoutHandler} type="button" style={{ backgroundColor: "#EE4E34", border: "black" }} disabled={cartItems.length === 0}>
+                                        <b>Proceed to Checkout</b>
+                                    </Button>
+                                </div>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Card.Body>
+                    {/* </Card> */}
                 </Col>
             </Row>
         </div>

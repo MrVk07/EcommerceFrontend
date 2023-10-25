@@ -44,7 +44,7 @@ function SigninScreen() {
 
 
     return (
-        <Container className="small-container">
+        <Container className="small-container" style={{ color: "black" }}>
             <Helmet>
                 <title>Sign In</title>
             </Helmet>
@@ -63,7 +63,7 @@ function SigninScreen() {
                 </div>
                 <div className="mb-3">
                     New customer?{' '}
-                    <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+                    <Link to={`/signup?redirect=${redirect}`} className='text-white'>Create your account</Link>
                 </div>
             </Form>
         </Container>

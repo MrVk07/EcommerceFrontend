@@ -69,7 +69,7 @@ main {
 .side-navbar {
   width: 240px;
   height: 100%;
-  position: absolute;
+  position: fixed;
   left: -300px;
   background-color: #100901;
   transition: 0.5s;
@@ -92,5 +92,5 @@ main {
 }
 
 body {
-  background-color: #ffbf00;
+  background-color: #1161a6;
 }
