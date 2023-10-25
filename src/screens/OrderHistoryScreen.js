@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -31,25 +31,29 @@ export default function OrderHistoryScreen() {
         loading: true,
         error: '',
     });
-    useEffect(() => {
-        const fetchData = async () => {
-            dispatch({ type: 'FETCH_REQUEST' });
-            try {
-                const url = resolveAPI("api/orders/mine");
-                const { data } = await axios.get(
-                    url,
-                    { headers: { Authorization: `Bearer ${userInfo.token}` } }
-                );
-                dispatch({ type: 'FETCH_SUCCESS', payload: data });
-            } catch (error) {
-                dispatch({
-                    type: 'FETCH_FAIL',
-                    payload: util(error),
-                });
-            }
-        };
-        fetchData();
+
+    const fetchData = useCallback(async () => {
+        dispatch({ type: 'FETCH_REQUEST' });
+        try {
+            const url = resolveAPI("api/orders/mine");
+            const { data } = await axios.get(
+                url,
+                { headers: { Authorization: `Bearer ${userInfo.token}` } }
+            );
+            dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({
+                type: 'FETCH_FAIL',
+                payload: util(error),
+            });
+        }
     }, [userInfo]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+
     return (
         <div>
             <Helmet>

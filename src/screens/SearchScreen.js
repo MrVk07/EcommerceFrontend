@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -82,6 +82,7 @@ export default function SearchScreen() {
     const rating = sp.get('rating') || 'all';
     const order = sp.get('order') || 'newest';
     const page = sp.get('page') || 1;
+    const [categories, setCategories] = useState([]);
 
     const [{ loading, error, products, pages, countProducts }, dispatch] =
         useReducer(reducer, {
@@ -89,37 +90,36 @@ export default function SearchScreen() {
             error: '',
         });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const url = resolveAPI(`api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
-                const { data } = await axios.get(
-                    url
-                );
-                dispatch({ type: 'FETCH_SUCCESS', payload: data });
-            } catch (err) {
-                dispatch({
-                    type: 'FETCH_FAIL',
-                    payload: util(error),
-                });
-            }
-        };
-        fetchData();
-    }, [category, error, order, page, price, query, rating]);
+    const fetchData = useCallback(async () => {
+        try {
+            const url = resolveAPI(`api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
+            const { data } = await axios.get(url);
+            dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        } catch (err) {
+            dispatch({
+                type: 'FETCH_FAIL',
+                payload: util(error),
+            });
+        }
+    }, [category, order, page, price, query, rating]);
 
-    const [categories, setCategories] = useState([]);
+    const fetchCategories = useCallback(async () => {
+        try {
+            const url = resolveAPI("api/products/categories");
+            const { data } = await axios.get(url);
+            setCategories(data);
+        } catch (err) {
+            toast.error(util(err));
+        }
+    }, []);
+
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const url = resolveAPI("api/products/categories");
-                const { data } = await axios.get(url);
-                setCategories(data);
-            } catch (err) {
-                toast.error(util(err));
-            }
-        };
+        fetchData();
+    }, [fetchData]);
+
+    useEffect(() => {
         fetchCategories();
-    }, [dispatch]);
+    }, [fetchCategories]);
 
     const getFilterUrl = (filter) => {
         const filterPage = filter.page || page;
@@ -130,6 +130,8 @@ export default function SearchScreen() {
         const sortOrder = filter.order || order;
         return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
     };
+
+
     return (
         <div>
             <Helmet>
@@ -137,74 +139,76 @@ export default function SearchScreen() {
             </Helmet>
             <Row>
                 <Col md={3}>
-                    <h3>Department</h3>
-                    <div>
-                        <ul>
-                            <li>
-                                <Link
-                                    className={'all' === category ? 'text-bold' : ''}
-                                    to={getFilterUrl({ category: 'all' })}
-                                >
-                                    Any
-                                </Link>
-                            </li>
-                            {categories.map((c) => (
-                                <li key={c}>
+                    <div style={{ backgroundColor: "#EEA47F" }} className='rounded'>
+                        <h3>Department</h3>
+                        <div>
+                            <ul className='list-unstyled px-3 my-2'>
+                                <li>
                                     <Link
-                                        className={c === category ? 'text-bold' : ''}
-                                        to={getFilterUrl({ category: c })}
+                                        className={'all' === category ? 'text-bold text-decoration-none text-dark' : 'text-decoration-none text-dark'}
+                                        to={getFilterUrl({ category: 'all' })}
                                     >
-                                        {c}
+                                        Any
                                     </Link>
                                 </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Price</h3>
-                        <ul>
-                            <li>
-                                <Link
-                                    className={'all' === price ? 'text-bold' : ''}
-                                    to={getFilterUrl({ price: 'all' })}
-                                >
-                                    Any
-                                </Link>
-                            </li>
-                            {prices.map((p) => (
-                                <li key={p.value}>
+                                {categories.map((c) => (
+                                    <li key={c}>
+                                        <Link
+                                            className={c === category ? 'text-bold text-dark text-decoration-none text-dark' : 'text-decoration-none text-dark'}
+                                            to={getFilterUrl({ category: c })}
+                                        >
+                                            {c}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Price</h3>
+                            <ul className='list-unstyled px-3 my-2'>
+                                <li>
                                     <Link
-                                        to={getFilterUrl({ price: p.value })}
-                                        className={p.value === price ? 'text-bold' : ''}
+                                        className={'all' === price ? 'text-bold  text-decoration-none text-dark' : ' text-decoration-none text-dark'}
+                                        to={getFilterUrl({ price: 'all' })}
                                     >
-                                        {p.name}
+                                        Any
                                     </Link>
                                 </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Avg. Customer Review</h3>
-                        <ul>
-                            {ratings.map((r) => (
-                                <li key={r.name}>
+                                {prices.map((p) => (
+                                    <li key={p.value}>
+                                        <Link
+                                            to={getFilterUrl({ price: p.value })}
+                                            className={p.value === price ? 'text-bold text-decoration-none text-dark' : ' text-decoration-none text-dark'}
+                                        >
+                                            {p.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Avg. Customer Review</h3>
+                            <ul className='list-unstyled px-3 my-2'>
+                                {ratings.map((r) => (
+                                    <li key={r.name}>
+                                        <Link
+                                            to={getFilterUrl({ rating: r.rating })}
+                                            className={`${r.rating}` === `${rating}` ? 'text-bold text-decoration-none text-dark' : ' text-decoration-none text-dark'}
+                                        >
+                                            <Rating caption={' & up'} rating={r.rating}></Rating>
+                                        </Link>
+                                    </li>
+                                ))}
+                                <li>
                                     <Link
-                                        to={getFilterUrl({ rating: r.rating })}
-                                        className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
+                                        to={getFilterUrl({ rating: 'all' })}
+                                        className={rating === 'all' ? 'text-bold text-decoration-none text-dark' : ' text-decoration-none text-dark'}
                                     >
-                                        <Rating caption={' & up'} rating={r.rating}></Rating>
+                                        <Rating caption={' & up'} rating={0}></Rating>
                                     </Link>
                                 </li>
-                            ))}
-                            <li>
-                                <Link
-                                    to={getFilterUrl({ rating: 'all' })}
-                                    className={rating === 'all' ? 'text-bold' : ''}
-                                >
-                                    <Rating caption={' & up'} rating={0}></Rating>
-                                </Link>
-                            </li>
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
                 </Col>
                 <Col md={9}>
@@ -256,8 +260,8 @@ export default function SearchScreen() {
 
                             <Row>
                                 {products.map((product) => (
-                                    <Col sm={6} lg={4} className="mb-3" key={product._id}>
-                                        <Product product={product}></Product>
+                                    <Col sm={6} md={4} lg={3} className="mb-3" key={product.slug}>
+                                        <Product product={product} />
                                     </Col>
                                 ))}
                             </Row>
@@ -282,6 +286,6 @@ export default function SearchScreen() {
                     )}
                 </Col>
             </Row>
-        </div>
+        </div >
     );
 }

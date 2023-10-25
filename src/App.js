@@ -44,8 +44,10 @@ function App() {
     localStorage.removeItem('paymentMethod')
     window.location.href = '/signin'
   }
+
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false)
   const [categories, setcategories] = useState([])
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
